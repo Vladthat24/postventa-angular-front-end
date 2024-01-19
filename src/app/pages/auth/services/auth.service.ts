@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   login(req: Login): Observable<ApiResponse> {
-    const requestUrl = `${env.api}${endpoint.GENERATE_TOKEN}`;
+    const requestUrl = `${env.api}${endpoint.LOGIN}`;
     return this.http.post<ApiResponse>(requestUrl, req, httpOptions).pipe(
       map((resp: ApiResponse) => {
         if (resp.isSuccess) {
