@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit {
 
   initForm(): void {
     this.form = this.fb.group({
-      username: ["admin", [Validators.required]],
-      password: ["admin123", [Validators.required]],
+      email: ["yosshimendieta94@gmail.com", [Validators.required]],
+      password: ["Yosshi123", [Validators.required]],
     });
   }
   constructor(
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
       });
     }
 
-    this.authService.login(this.form.value).subscribe((resp) => {
+    this.authService.login(this.form.value,"Interno").subscribe((resp) => {
       if (resp.isSuccess) {
         this.router.navigate(["/"]);
       }

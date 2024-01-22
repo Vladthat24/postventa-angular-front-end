@@ -43,7 +43,7 @@ export class LoginGoogleComponent implements OnInit {
   }
 
   async handleCredentialResponse(response: CredentialResponse) {
-    this.authService.loginWithGoogle(response.credential).subscribe(
+    this.authService.loginWithGoogle(response.credential,"Externo").subscribe(
       (resp: ApiResponse) => {
         if (resp.isSuccess) {
           this.ngZone.run(() => {
