@@ -8,6 +8,13 @@ import icName from "@iconify/icons-ic/round-badge";
 import icDescription from "@iconify/icons-ic/round-description";
 import icVisibility from "@iconify/icons-ic/twotone-visibility";
 import icVisibilityOff from "@iconify/icons-ic/twotone-visibility-off";
+import icMail from "@iconify/icons-ic/twotone-group";
+import icViewHeadLine from "@iconify/icons-ic/twotone-view-headline";
+import icLabel from "@iconify/icons-ic/twotone-label";
+import icProvider from "@iconify/icons-ic/twotone-group";
+import icDashboard from "@iconify/icons-ic/twotone-dashboard";
+import isCategory from "@iconify/icons-ic/twotone-category";
+
 @Injectable({
   providedIn: "root",
 })
@@ -19,26 +26,44 @@ export class IconsService {
     if (icon == "icDelete") {
       return icDelete;
     }
-    if ((icon == "icArrowDropDown")) {
+    if (icon == "icArrowDropDown") {
       return icArrowDropDown;
     }
-    if ((icon == "icSearch")) {
+    if (icon == "icSearch") {
       return icSearch;
     }
-    if ((icon == "icClose")) {
+    if (icon == "icClose") {
       return icClose;
     }
-    if ((icon == "icName")) {
+    if (icon == "icName") {
       return icName;
     }
-    if ((icon == "icDescription")) {
+    if (icon == "icDescription") {
       return icDescription;
     }
-    if((icon=="icVisibility")){
+    if (icon == "icVisibility") {
       return icVisibility;
     }
-    if((icon=="icVisibilityOff")){
+    if (icon == "icVisibilityOff") {
       return icVisibilityOff;
+    }
+    if (icon == "icMail") {
+      return icMail;
+    }
+    if (icon == "icViewHeadLine") {
+      return icViewHeadLine;
+    }
+    if (icon == "icLabel") {
+      return icLabel;
+    }
+    if (icon == "icProvider") {
+      return icProvider;
+    }
+    if (icon == "icDashboard") {
+      return icDashboard;
+    }
+    if (icon == "isCategory") {
+      return isCategory;
     }
   }
 }

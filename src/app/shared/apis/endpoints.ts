@@ -11,7 +11,15 @@ export const endpoint={
 
     //Auth Module
     LOGIN:"Auth/Generate/Login",
-    LOGIN_GOOGLE:"Auth/Generate/LoginWithGoogle"
+    LOGIN_GOOGLE:"Auth/Generate/LoginWithGoogle",
+
+    //Proveedores
+    LIST_PROVIDERS:"Provider",
+    PROVIDER_REGISTER:"Provider/Register/",
+
+    //DocumentType
+    LIST_DOCUMENT_TYPES:"DocumentType"
+
 }
 
 export const httpOptions={

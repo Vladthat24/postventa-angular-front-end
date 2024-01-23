@@ -1,6 +1,5 @@
 import { Category } from "src/app/pages/category/models/category-response.interface";
 import icCategory from "@iconify/icons-ic/twotone-category";
-import { ListTableMenu } from "src/app/commons/list-table-menu.interface";
 import icViewHeadLine from "@iconify/icons-ic/twotone-view-headline";
 import icLabel from "@iconify/icons-ic/twotone-label";
 import { GenericValidators } from "@shared/validators/generic-validators";
