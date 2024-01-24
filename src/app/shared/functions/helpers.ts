@@ -35,16 +35,15 @@ export function toBase64(file: File) {
 export function getIcon(
   iconName: string,
   tooltip: string,
-  permission: boolean,
-  action?: string
+  permission: boolean
 ) {
   let generalCss = "flex justify-center items-center p-1.5 w-fit rounded-full ";
 
   let iconObj = {
     tooltip: null,
     icon: null,
-    css: null,
-    action: null,
+    css: null
+
   };
 
   if (permission) {
@@ -52,7 +51,6 @@ export function getIcon(
       tooltip,
       icon: IconsService.prototype.getIcon(iconName),
       css: generalCss + COLORS_BADGE.main,
-      action: action ? action : null,
     };
     if (["icEdit"].includes(iconName)) {
       iconObj.css = generalCss + COLORS_BADGE.main;

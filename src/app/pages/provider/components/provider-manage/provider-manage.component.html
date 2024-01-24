@@ -1,5 +1,5 @@
 <form [formGroup]="form"
-	(ngSubmit)="(providerSave)">
+	(ngSubmit)="providerSave()">
 	<div mat-dialog-title
 		class="flex justify-between">
 		<h2 class="headline m-0 text-xl text-accent">
@@ -64,9 +64,6 @@
 			<mat-label>Teléfono</mat-label>
 			<input matInput
 				formControlName="phone">
-			<mat-error *ngIf="form.get('phone').hasError('required')">
-				Campo Teléfono es requerido.
-			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field appearance="outline"
@@ -74,9 +71,6 @@
 			<mat-label>Dirección</mat-label>
 			<input matInput
 				formControlName="address">
-			<mat-error *ngIf="form.get('address').hasError('required')">
-				Campo Dirección es requerido.
-			</mat-error>
 		</mat-form-field>
 
 		<mat-form-field appearance="outline"
@@ -102,6 +96,7 @@
 		<button [disabled]="form.invalid"
 			color="purple"
 			class="bg-accent text-accent-contrast"
+			type="submit"
 			mat-button>
 			GUARDAR
 		</button>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Provider } from "@angular/core";
 import { CustomTitleService } from "@shared/services/custom-title.service";
 import { fadeInRight400ms } from "src/@vex/animations/fade-in-right.animation";
 import { scaleIn400ms } from "src/@vex/animations/scale-in.animation";
@@ -6,8 +6,11 @@ import { stagger40ms } from "src/@vex/animations/stagger.animation";
 import { ProviderService } from "../../services/provider.service";
 import { componentSettings } from "./provider-list-config";
 import { FiltersBox } from "@shared/models/seach-options-interface";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { ProviderManageComponent } from "../provider-manage/provider-manage.component";
+import { ProviderResponse } from "../../models/provider-response.interface";
+import { RowClick } from "@shared/models/row-click.interface";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "vex-provider-list",
@@ -70,6 +73,58 @@ export class ProviderListComponent implements OnInit {
           this.setGetInputsProviders(true);
         }
       });
+  }
+
+  rowClick(rowClick: RowClick<ProviderResponse>) {
+    let action = rowClick.action;
+    let provider = rowClick.row;
+
+    switch (action) {
+      case "edit":
+        this.providerEdit(provider);
+        break;
+      case "remove":
+        this.providerRemove(provider);
+        break;
+    }
+    return false;
+  }
+
+  providerEdit(providerData: ProviderResponse) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = providerData;
+
+    this._dialog.open(ProviderManageComponent, {
+      data: dialogConfig,
+      disableClose: true,
+      width: "400px",
+    })
+      .afterClosed()
+      .subscribe((resp) => {
+        if (resp) {
+          this.setGetInputsProviders(true);
+        }
+      })
+  }
+
+  providerRemove(providerData: ProviderResponse) {
+    Swal.fire({
+      title: `¿Realmente deseas eliminar el proveedor ${providerData.name}`,
+      text: "Se borrará de forma permanente",
+      icon: "warning",
+      showCancelButton: true,
+      focusCancel: true,
+      confirmButtonColor: 'rgb(210,155,253)',
+      cancelButtonColor: 'rgb(79,109,253)',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      width: "430"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._providerService.providerRemove(providerData.providerId)
+          .subscribe(() => this.setGetInputsProviders(true));
+      }
+    })
   }
 
   setGetInputsProviders(refresh: boolean) {

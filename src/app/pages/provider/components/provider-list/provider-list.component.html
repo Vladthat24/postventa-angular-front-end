@@ -33,6 +33,7 @@
 				</app-menu>
 				<div class="card h-full overflow-hidden flex-auto">
 					<app-list-table [service]="_providerService"
+					    (rowClick)="rowClick($event)"
 						[columns]="component.tableColumns"
 						[sortBy]="component.initialSort"
 						[sortDir]="component.initialSortDir"

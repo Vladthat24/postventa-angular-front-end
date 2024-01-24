@@ -1,7 +1,7 @@
 export interface ProviderRequest {
   name: string;
   email: string;
-  documentTypeId: string;
+  documentTypeId: number;
   documentNumber: string;
   address: string;
   phone: string;
