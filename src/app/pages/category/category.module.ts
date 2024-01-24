@@ -8,6 +8,9 @@ import { CategoryManageComponent } from './components/category-manage/category-m
 import { ListTableComponent } from '@shared/components/reusables/list-table/list-table.component';
 import { SearchBoxMultipleComponent } from '@shared/components/reusables/search-box-multiple/search-box-multiple.component';
 import { MenuComponent } from '@shared/components/reusables/menu/menu.component';
+import { ExportExcelComponent } from '@shared/components/reusables/export-excel/export-excel.component';
+import { FilterDataRangeYmdComponent } from '@shared/components/reusables/filter-data-range-ymd/filter-data-range-ymd.component';
+import { ButtonResetFiltersComponent } from '@shared/components/reusables/button-reset-filters/button-reset-filters.component';
 
 
 @NgModule({
@@ -21,7 +24,10 @@ import { MenuComponent } from '@shared/components/reusables/menu/menu.component'
     SharedModule,
     ListTableComponent,
     SearchBoxMultipleComponent,
-    MenuComponent
+    MenuComponent,
+    ExportExcelComponent,
+    FilterDataRangeYmdComponent,
+    ButtonResetFiltersComponent
   ]
 })
 export class CategoryModule { }

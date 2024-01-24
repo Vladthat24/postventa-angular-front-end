@@ -10,7 +10,9 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CategoryManageComponent } from '../category-manage/category-manage.component';
 import Swal from 'sweetalert2';
 import { FiltersBox, SearchOptions } from '@shared/models/seach-options-interface';
-import { BaseApiResponse } from '@shared/models/base-api-response.interface';
+import { CategoryResponse } from '../../models/category-response.interface';
+import {DateRange} from "../../../../shared/models/seach-options-interface";
+
 
 
 @Component({
@@ -64,37 +66,46 @@ export class CategoryListComponent implements OnInit {
     this.component.filters.textFilter = data.searchData
     this.formatGetInputs()
   }
+  
+  searchDateRange(date: DateRange){
+    this.component.filters.startDate =date.startDate;
+    this.component.filters.endDate=date.endDate;
+    this.formatGetInputs()
+  }
+
+  resetFilters(){
+    this.component.filters={ ...this.component.resetFilters}
+    this.formatGetInputs()
+  }
 
   //Filter por fechas inicio y fin
   datesFilterOpen() {
     DatesFilter(this)
   }
 
+  //Concatener todos los filter para enviarlo por queryparams
   formatGetInputs() {
-    let inputs = {
-      numFilter: 0,
-      textFilter: "",
-      stateFilter: null,
-      startDate: null,
-      endDate: null
+    let str = "";
+    if (this.component.filters.textFilter != null) {
+      str += `&numFilter=${this.component.filters.numFilter}&textFilter=${this.component.filters.textFilter}`;
     }
-
-    if (this.component.filters.numFilter != "") {
-      inputs.numFilter = this.component.filters.numFilter
-      inputs.textFilter = this.component.filters.textFilter
-    }
-
     if (this.component.filters.stateFilter != null) {
-      inputs.stateFilter = this.component.filters.stateFilter
+      str += `&stateFilter=${this.component.filters.stateFilter}`;
+    }
+    if (this.component.filters.startDate !=null && this.component.filters.endDate != null) {
+      str+=`&startDate=${this.component.filters.startDate}`;
+      str+=`&endDate=${this.component.filters.endDate}`;
     }
 
-    if (this.component.filters.startDate != "" && this.component.filters.endDate != "") {
-      inputs.startDate = this.component.filters.startDate
-      inputs.endDate = this.component.filters.endDate
+    if (this.component.filters.refresh) {
+      let random = Math.random();
+      str += `&refresh=${random}`;
+      this.component.filters.refresh = false;
     }
-
-    this.component.getInputs = inputs
+    this.component.getInputs = str;
   }
+
+
 
   //Abrir un nuevo dialog para registrar una nueva categoria
   openDialogRegister() {
@@ -104,15 +115,15 @@ export class CategoryListComponent implements OnInit {
     }).afterClosed().subscribe(
       (res) => {
         if (res) {
-          this.formatGetInputs();
+          this.setGetInputsProviders(true);
         }
       }
     )
   }
 
-  CategoryEdit(row: BaseApiResponse) {
+  CategoryEdit(row: CategoryResponse) {
     const dialogConfig = new MatDialogConfig()
-    dialogConfig.data = row
+    dialogConfig.data = row;
 
     let dialogRef = this._dialog.open(CategoryManageComponent, {
       data: dialogConfig,
@@ -122,7 +133,7 @@ export class CategoryListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (res) => {
         if (res) {
-          this.formatGetInputs();
+          this.setGetInputsProviders(true);
         }
       }
     )
@@ -143,9 +154,18 @@ export class CategoryListComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this._categoryService.CategoryRemove(category.categoryId)
-          .subscribe(() => this.formatGetInputs());
+          .subscribe(() => this.setGetInputsProviders(true));
       }
     })
+  }
+
+  setGetInputsProviders(refresh: boolean) {
+    this.component.filters.refresh = refresh;
+    this.formatGetInputs();
+  }
+  
+  get getDownloadUrl(){
+    return `Category?Download=true`;
   }
 
 }

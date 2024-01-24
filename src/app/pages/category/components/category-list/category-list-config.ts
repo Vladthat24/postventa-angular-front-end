@@ -1,4 +1,4 @@
-import { Category } from "src/app/pages/category/models/category-response.interface";
+import { CategoryResponse } from "src/app/pages/category/models/category-response.interface";
 import icCategory from "@iconify/icons-ic/twotone-category";
 import icViewHeadLine from "@iconify/icons-ic/twotone-view-headline";
 import icLabel from "@iconify/icons-ic/twotone-label";
@@ -56,7 +56,7 @@ const menuItems: MenuItems[] = [
         }
     }
 ]
-const tableColumns: TableColumns<Category>[] = [
+const tableColumns: TableColumns<CategoryResponse>[] = [
     {
         label: "Nombre",
         cssLabel:["font-bold","text-sm"],
@@ -134,15 +134,20 @@ const filters = {
     textFilter: "",
     stateFilter: null,
     stateDate: null,
-    endDate: null
+    endDate: null,
+    refresh:false,
 }
-const inputs = {
+const resetFilters = {
     numFilter: 0,
     textFilter: "",
     stateFilter: null,
     stateDate: null,
-    endDate: null
+    endDate: null,
+    refresh:false,
 }
+
+const getInputs:string ="";
+
 export const componentSettings = {
     //ICONS
     icCategory: icCategory,
@@ -153,7 +158,7 @@ export const componentSettings = {
     tableColumns: tableColumns,
     initialSort: "Id",
     initalSortDir: "desc",
-    getInputs: inputs,
+    getInputs,
     buttonLabel: "EDITAR",
     buttonLabel2: "ELIMINAR",
     //SEARCH FILTROS
@@ -161,7 +166,9 @@ export const componentSettings = {
     searchOptions:searchOptions,
     filters_dates_active: false,
     filters: filters,
+    resetFilters:resetFilters,
     datesFilterArray:['Fecha de creación'],
+    filename:"listado-de-categorias",
     columnsFilter: tableColumns.map((column) => {
         return {
             label: column.label,

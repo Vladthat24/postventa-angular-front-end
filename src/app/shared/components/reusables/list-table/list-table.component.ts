@@ -144,9 +144,9 @@ export class ListTableComponent<T> implements OnInit, AfterViewInit, OnChanges {
   setData(data: any) {
     if (data.isSuccess) {
       this.setVisibleColumns();
-      this.paginatorOptions.pageLength = data.data.totalRecords;
-      this.dataSource.data = data.data.items;
-      if (data.data.footer) this.setFooter(data.data.footer);
+      this.paginatorOptions.pageLength = data.totalRecords;
+      this.dataSource.data = data.data;
+      if (data.footer) this.setFooter(data.footer);
     } else {
       this._alert.warn("Atención", "Ha ocurdido un error al cargar los datos");
     }

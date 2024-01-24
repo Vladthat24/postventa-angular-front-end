@@ -191,7 +191,7 @@ const filters = {
   refresh:false,
 };
 
-const inputs = {
+const resetFilters = {
   numFilter: 0,
   textFilter: "",
   stateFilter: null,
@@ -199,6 +199,8 @@ const inputs = {
   endDate: null,
   refresh:false,
 };
+
+const getInputs:string="";
 
 export const componentSettings = {
   icProvider: IconsService.prototype.getIcon("icProvider"),
@@ -208,12 +210,14 @@ export const componentSettings = {
   tableColumns,
   initialSort: "Id",
   initalSortDir: "desc",
-  getInputs: inputs,
+  getInputs,
   //SEARCH FILTROS
   menuItems,
   searchOptions,
   filters: filters,
+  resetFilters,
   datesFilterArray: ["Fecha de creación"],
+  filename:"listado-de-provider",
   columnsFilter: tableColumns.map((column) => {
     return {
       label: column.label,

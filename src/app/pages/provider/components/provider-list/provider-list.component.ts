@@ -5,7 +5,7 @@ import { scaleIn400ms } from "src/@vex/animations/scale-in.animation";
 import { stagger40ms } from "src/@vex/animations/stagger.animation";
 import { ProviderService } from "../../services/provider.service";
 import { componentSettings } from "./provider-list-config";
-import { FiltersBox } from "@shared/models/seach-options-interface";
+import { DateRange, FiltersBox } from "@shared/models/seach-options-interface";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { ProviderManageComponent } from "../provider-manage/provider-manage.component";
 import { ProviderResponse } from "../../models/provider-response.interface";
@@ -42,6 +42,16 @@ export class ProviderListComponent implements OnInit {
     this.component.filters.textFilter = data.searchData;
     this.formatGetInputs();
   }
+  searchDateRange(date: DateRange){
+    this.component.filters.startDate =date.startDate;
+    this.component.filters.endDate=date.endDate;
+    this.formatGetInputs()
+  }
+
+  resetFilters(){
+    this.component.filters={ ...this.component.resetFilters}
+    this.formatGetInputs()
+  }
 
   //Concatener todos los filter para enviarlo por queryparams
   formatGetInputs() {
@@ -51,6 +61,11 @@ export class ProviderListComponent implements OnInit {
     }
     if (this.component.filters.stateFilter != null) {
       str += `&stateFilter=${this.component.filters.stateFilter}`;
+    }
+
+    if (this.component.filters.startDate != null && this.component.filters.endDate != null) {
+      str+=`&startDate=${this.component.filters.startDate}`;
+      str+=`&endDate=${this.component.filters.endDate}`;
     }
 
     if (this.component.filters.refresh) {
@@ -108,6 +123,8 @@ export class ProviderListComponent implements OnInit {
   }
 
   providerRemove(providerData: ProviderResponse) {
+    console.log("Prueba:", providerData);
+    
     Swal.fire({
       title: `¿Realmente deseas eliminar el proveedor ${providerData.name}`,
       text: "Se borrará de forma permanente",
@@ -130,5 +147,9 @@ export class ProviderListComponent implements OnInit {
   setGetInputsProviders(refresh: boolean) {
     this.component.filters.refresh = refresh;
     this.formatGetInputs();
+  }
+
+  get getDownloadUrl(){
+    return `Provider?Download=true`;
   }
 }
