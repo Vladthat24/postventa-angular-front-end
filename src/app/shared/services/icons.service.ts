@@ -17,6 +17,7 @@ import isCategory from "@iconify/icons-ic/twotone-category";
 import icCloudDownload from "@iconify/icons-ic/twotone-cloud-download";
 import icToday from "@iconify/icons-ic/twotone-today";
 import icRefresh from "@iconify/icons-ic/twotone-restart-alt";
+import icWarehouse from "@iconify/icons-ic/twotone-widgets";
 
 @Injectable({
   providedIn: "root",
@@ -76,6 +77,9 @@ export class IconsService {
     }
     if(icon=="icRefresh"){
       return icRefresh;
+    }
+    if(icon=="icWarehouse"){
+      return icWarehouse;
     }
   }
 }

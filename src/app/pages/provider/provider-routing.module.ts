@@ -5,7 +5,11 @@ import { ProviderListComponent } from './components/provider-list/provider-list.
 const routes: Routes = [
   {
     path:'',
-    component:ProviderListComponent
+    component:ProviderListComponent,
+    data:{
+      scrollDisabled:true,
+      toolbarShadowEnabled:true
+    }
   }
 ];
 

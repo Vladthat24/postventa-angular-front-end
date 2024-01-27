@@ -21,7 +21,10 @@ export const endpoint={
     PROVIDER_REMOVE:"Provider/Remove/",
 
     //DocumentType
-    LIST_DOCUMENT_TYPES:"DocumentType"
+    LIST_DOCUMENT_TYPES:"DocumentType",
+
+    //Almacenes
+    LIST_WAREHOUSE:"Warehouse",
 
 }
 

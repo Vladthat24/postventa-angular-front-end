@@ -71,6 +71,12 @@ export class AppComponent {
       },
       {
         type:'link',
+        label:'Almacenes',
+        route:'almacenes',
+        icon: IconsService.prototype.getIcon('icWarehouse'),
+      },
+      {
+        type:'link',
         label:'Categorias',
         route:'categorias',
         icon: IconsService.prototype.getIcon('isCategory'),

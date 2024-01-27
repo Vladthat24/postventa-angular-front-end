@@ -64,6 +64,7 @@ export class ProviderService {
       })
     );
   }
+  
   providerById(providerId: number): Observable<ProviderById> {
     const requestUrl = `${env.api}${endpoint.PROVIDER_BY_ID}${providerId}`;
     return this._http.get<BaseResponse>(requestUrl).pipe(
@@ -72,6 +73,7 @@ export class ProviderService {
       })
     )
   }
+
   providerEdit(providerId:number,provider:ProviderRequest):Observable<BaseResponse>{
     const requestUrl = `${env.api}${endpoint.PROVIDER_EDIT}${providerId}`;
     return this._http.put<BaseResponse>(requestUrl,provider);
