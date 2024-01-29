@@ -6,6 +6,7 @@ import { DocumentTypeService } from '@shared/services/document-type.service';
 import { IconsService } from '@shared/services/icons.service';
 import { statesSelect } from 'src/static-data/configs';
 import { WarehouseService } from '../../service/warehouse.service';
+import { BaseResponse } from '@shared/models/base-api-response.interface';
 
 @Component({
   selector: 'vex-warehouse-manage',
@@ -38,6 +39,19 @@ export class WarehouseManageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.data.mode=="edit"){
+      this.warehouseById(this.data.dialogConfig.data.warehouseId);
+    }
+  }
+
+  warehouseById(warehouseId:number):void{
+    this._warehouseService.warehouseById(warehouseId).subscribe((resp)=>{
+      this.form.reset({
+        warehouseId:resp.warehouseId,
+        name:resp.name,
+        state:resp.state,
+      })
+    })
   }
 
   providerSave(): void {
@@ -68,13 +82,16 @@ export class WarehouseManageComponent implements OnInit {
       });
   }
 
-  warehouseEdit(providerId: number): void {
+  warehouseEdit(warehouseId: number): void {
     this._warehouseService
-      .providerEdit(providerId, this.form.value)
+      .warehouseEdit(warehouseId, this.form.value)
       .subscribe((resp) => {
         if (resp.isSuccess) {
           this._alert.success("Excelente", resp.message);
           this._dialogRef.close(true);
+        }else{
+          this._alert.warn("Atención", resp.message);
+          
         }
       });
   }

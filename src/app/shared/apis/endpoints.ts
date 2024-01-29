@@ -25,6 +25,10 @@ export const endpoint={
 
     //Almacenes
     LIST_WAREHOUSE:"Warehouse",
+    WAREHOUSE_BY_ID:"Warehouse/",
+    WAREHOUSE_REGISTER:"Warehouse/Register",
+    WAREHOUSE_EDIT:"Warehouse/Edit/",
+    WAREHOUSE_REMOVE:"Warehouse/Remove/",
 
 }
 

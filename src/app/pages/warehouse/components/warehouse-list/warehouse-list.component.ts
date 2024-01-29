@@ -4,10 +4,13 @@ import { scaleIn400ms } from "src/@vex/animations/scale-in.animation";
 import { stagger40ms } from "src/@vex/animations/stagger.animation";
 import { WarehouseService } from "../../service/warehouse.service";
 import { CustomTitleService } from "@shared/services/custom-title.service";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { componentSettings } from "./warehouse-list.config";
 import { DateRange, FiltersBox } from "@shared/models/seach-options-interface";
 import { WarehouseManageComponent } from "../warehouse-manage/warehouse-manage.component";
+import { RowClick } from "@shared/models/row-click.interface";
+import { WarehouseResponse } from "../../models/warehouse-response.interface";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "vex-warehouse-list",
@@ -73,6 +76,61 @@ export class WarehouseListComponent implements OnInit {
       this.component.filters.refresh = false;
     }
     this.component.getInputs = str;
+  }
+
+  rowClick(rowClick: RowClick<WarehouseResponse>) {
+    let action = rowClick.action;
+    let warehouse = rowClick.row;
+
+    switch (action) {
+      case "edit":
+        this.warehouseEdit(warehouse);
+        break;
+      case "remove":
+        this.warehouseRemove(warehouse);
+        break;
+    }
+    return false;
+  }
+
+  warehouseEdit(warehouseDate: WarehouseResponse) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = warehouseDate;
+
+    this._dialog
+      .open(WarehouseManageComponent, {
+        disableClose: true,
+        width: "400px",
+        data: { dialogConfig, mode: "edit" },
+      })
+      .afterClosed()
+      .subscribe((resp) => {
+        if (resp) {
+          this.setGetInputsWarehouse(true);
+        }
+      });
+  }
+
+  warehouseRemove(warehouseData: WarehouseResponse){
+    console.log("Prueba:", warehouseData);
+    
+    Swal.fire({
+      title: `¿Realmente deseas eliminar el almacé ${warehouseData.name}`,
+      text: "Se borrará de forma permanente",
+      icon: "warning",
+      showCancelButton: true,
+      focusCancel: true,
+      confirmButtonColor: 'rgb(210,155,253)',
+      cancelButtonColor: 'rgb(79,109,253)',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      width: "430"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._warehouseService.warehouseRemove(warehouseData.warehouseId)
+          .subscribe(() => this.setGetInputsWarehouse(true));
+      }
+    })
   }
 
   openDialogRegister() {

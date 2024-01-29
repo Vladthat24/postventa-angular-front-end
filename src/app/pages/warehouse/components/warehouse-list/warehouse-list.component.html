@@ -5,7 +5,7 @@
           class="headline text-primary-contrast m-0 flex items-center w-full max-w-xxxl mr-6"
         >
           <ic-icon
-            [icon]="component.icProvider"
+            [icon]="component.icWarehouse"
             @scaleIn
             class="hidden sm:block"
           ></ic-icon>
@@ -58,7 +58,7 @@
           <div class="card h-full overflow-hidden flex-auto">
             <app-list-table
               [service]="_warehouseService"
-             
+              (rowClick)="rowClick($event)"
               [columns]="component.tableColumns"
               [sortBy]="component.initialSort"
               [sortDir]="component.initialSortDir"
