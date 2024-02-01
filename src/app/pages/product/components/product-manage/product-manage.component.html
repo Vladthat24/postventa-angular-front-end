@@ -1,0 +1,17 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <div mat-dialog-title class="flex justify-between">
+        <h2 class="headline m-0 text-xl text-accent">
+            <strong>
+                {{data.mode=="register"
+                ? "Registrar Nuevo Producto"
+                : "Actualizar Producto"}}
+            </strong>
+        </h2>
+        <button class="text-secondary" mat-dialog-close mat-icon-button>
+            <mat-icon [icIcon]="icClose"></mat-icon>
+        </button>
+    </div>
+    <mat-dialog-content>
+        
+    </mat-dialog-content>
+</form>

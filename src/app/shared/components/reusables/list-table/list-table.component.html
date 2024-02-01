@@ -6,33 +6,101 @@
     name="modal-table"
     color="#7884E3"
   ></ngx-spinner>
-  <div class="h-full" [class.overflow-auto]="dataSource.filteredData.length">
+  <div [class.overflow-auto]="dataSource.filteredData.length" class="h-full">
     <table
       [@scaleFadeIn]="dataSource.filteredData"
       [dataSource]="dataSource"
+      [matSortActive]="sortBy"
+      [matSortDirection]="sortDir"
       class="w-full"
       mat-table
       matSort
       matSortDisableClear
-      [matSortActive]="sortBy"
-      [matSortDirection]="sortDir"
     >
       <ng-container *ngFor="let column of columns">
+        <ng-container
+          *ngIf="column.type === 'image'"
+          [matColumnDef]="column.property"
+          [sticky]="column.sticky"
+        >
+          <th
+            *matHeaderCellDef
+            [mat-sort-header]="column.sortProperty"
+            [disabled]="!column.sort"
+            [ngClass]="column.cssLabel"
+            mat-header-cell
+          >
+            {{ column.label }}
+          </th>
+          <td *matCellDef="let row" mat-cell>
+            <img
+              [src]="row[column.property]"
+              class="avatar h-9 w-9 align-middle my-2"
+            />
+          </td>
+        </ng-container>
+
+        <ng-container
+          *ngIf="column.type === 'currency'"
+          [matColumnDef]="column.property"
+          [sticky]="column.sticky"
+        >
+          <th
+            *matHeaderCellDef
+            [mat-sort-header]="column.sortProperty"
+            [disabled]="!column.sort"
+            [ngClass]="column.cssLabel"
+            mat-header-cell
+          >
+            {{ column.label }}
+          </th>
+          <td
+            *matCellDef="let row"
+            [ngClass]="column.cssProperty"
+            mat-cell
+          >
+            {{ row[column.property] | currency : "" : "" }}
+          </td>
+        </ng-container>
+
+        <ng-container
+          *ngIf="column.type === 'number'"
+          [matColumnDef]="column.property"
+          [sticky]="column.sticky"
+        >
+          <th
+            *matHeaderCellDef
+            [mat-sort-header]="column.sortProperty"
+            [disabled]="!column.sort"
+            [ngClass]="column.cssLabel"
+            mat-header-cell
+          >
+            {{ column.label }}
+          </th>
+          <td
+            *matCellDef="let row"
+            [ngClass]="column.cssProperty"
+            mat-cell
+          >
+            {{ row[column.property] }}
+          </td>
+        </ng-container>
+
         <ng-container
           *ngIf="column.type === 'text'"
           [matColumnDef]="column.property"
           [sticky]="column.sticky"
         >
           <th
-            mat-header-cell
             *matHeaderCellDef
             [mat-sort-header]="column.sortProperty"
             [disabled]="!column.sort"
             [ngClass]="column.cssLabel"
+            mat-header-cell
           >
             {{ column.label }}
           </th>
-          <td mat-cell *matCellDef="let row">
+          <td *matCellDef="let row" mat-cell>
             <div>
               <div *ngIf="!row[column.subProperty]">
                 <p [ngClass]="column.cssProperty">
@@ -52,20 +120,53 @@
         </ng-container>
 
         <ng-container
-          *ngIf="column.type === 'datetime'"
+          *ngIf="column.type === 'textUppercase'"
           [matColumnDef]="column.property"
+          [sticky]="column.sticky"
         >
           <th
-            mat-header-cell
             *matHeaderCellDef
             [mat-sort-header]="column.sortProperty"
             [disabled]="!column.sort"
             [ngClass]="column.cssLabel"
+            mat-header-cell
+          >
+            {{ column.label }}
+          </th>
+          <td *matCellDef="let row" mat-cell>
+            <div>
+              <div *ngIf="!row[column.subProperty]">
+                <p [ngClass]="column.cssProperty">
+                  {{ row[column.property] | uppercase }}
+                </p>
+              </div>
+              <div *ngIf="row[column.subProperty]">
+                <p [ngClass]="column.cssProperty">
+                  {{ row[column.property] | uppercase }}
+                </p>
+                <p [ngClass]="column.cssProperty">
+                  {{ row[column.subProperty] | uppercase }}
+                </p>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container
+          *ngIf="column.type === 'datetime'"
+          [matColumnDef]="column.property"
+        >
+          <th
+            *matHeaderCellDef
+            [mat-sort-header]="column.sortProperty"
+            [disabled]="!column.sort"
+            [ngClass]="column.cssLabel"
+            mat-header-cell
           >
             {{ column.label }}
           </th>
 
-          <td mat-cell *matCellDef="let row" [ngClass]="column.cssProperty">
+          <td *matCellDef="let row" [ngClass]="column.cssProperty" mat-cell>
             {{ row[column.property] | date : "dd-MM-yyyy hh:mm:ss a" }}
           </td>
         </ng-container>
@@ -75,19 +176,19 @@
           [matColumnDef]="column.property"
         >
           <th
-            mat-header-cell
             *matHeaderCellDef
             [mat-sort-header]="column.sortProperty"
             [disabled]="!column.sort"
             [ngClass]="column.cssLabel"
+            mat-header-cell
           >
             {{ column.label }}
           </th>
-          <td mat-cell *matCellDef="let row" [ngClass]="column.cssProperty">
+          <td *matCellDef="let row" [ngClass]="column.cssProperty" mat-cell>
             <ng-container>
               <div
-                class="rounded px-2 py-1 font-medium text-xs inline-block"
                 [ngClass]="row['badgeColor']"
+                class="rounded px-2 py-1 font-medium text-xs inline-block"
               >
                 {{ row[column.property] | uppercase }}
               </div>
@@ -99,10 +200,10 @@
           *ngIf="column.type === 'icon'"
           [matColumnDef]="column.property"
         >
-          <th mat-header-cell *matHeaderCellDef [ngClass]="column.cssLabel">
+          <th *matHeaderCellDef [ngClass]="column.cssLabel" mat-header-cell>
             {{ column.label }}
           </th>
-          <td mat-cell *matCellDef="let row" [ngClass]="column.cssProperty">
+          <td *matCellDef="let row" [ngClass]="column.cssProperty" mat-cell>
             <div
               *ngIf="row[column.property].icon"
               [ngClass]="row[column.property].css"
@@ -117,9 +218,9 @@
               "
             >
               <mat-icon
-                matTooltipPosition="above"
                 [matTooltip]="row[column.property].tooltip"
                 [icIcon]="row[column.property].icon"
+                matTooltipPosition="above"
               >
               </mat-icon>
             </div>
@@ -127,17 +228,19 @@
         </ng-container>
       </ng-container>
 
-      <tr
-        mat-header-row
-        *matHeaderRowDef="visibleColumns; sticky: true"
-        class="h-18"
-      ></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; let i = index; columns: visibleColumns"
-        @fadeInUp
-        class="h-16"
-      ></tr>
+      <tbody>
+        <tr
+          *matHeaderRowDef="visibleColumns; sticky: true"
+          mat-header-row
+          class="h-18"
+        ></tr>
+        <tr
+          *matRowDef="let row; let i = index; columns: visibleColumns"
+          mat-row
+          @fadeInUp
+          class="h-16"
+        ></tr>
+      </tbody>
     </table>
     <div
       *ngIf="dataSource.filteredData.length === 0"
@@ -156,7 +259,7 @@
   <div
     class="h-24 flex gap-4 justify-between items-center flex-grap mx-10 my-2"
   >
-    <div class="flex gap-3" *ngIf="dataSource.filteredData.length !== 0">
+    <div *ngIf="dataSource.filteredData.length !== 0" class="flex gap-3">
       <ng-container></ng-container>
     </div>
 

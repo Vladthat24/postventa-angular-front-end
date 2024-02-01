@@ -30,6 +30,9 @@ export const endpoint={
     WAREHOUSE_EDIT:"Warehouse/Edit/",
     WAREHOUSE_REMOVE:"Warehouse/Remove/",
 
+    //PRODUCT
+    LIST_PRODUCTS:"Product",
+
 }
 
 export const httpOptions={
