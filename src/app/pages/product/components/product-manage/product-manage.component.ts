@@ -56,4 +56,41 @@ export class ProductManageComponent implements OnInit {
       this.categorySelect=resp;
     })
   }
+  selectImage(file:File){
+    this.form.get('image').setValue(file);
+  }
+
+  productSave():void{
+    if(this.form.invalid){
+      return Object.values(this.form.controls).forEach((controls)=>{
+        controls.markAllAsTouched();
+      })
+    }
+
+    const productId=this.form.get("productId").value;
+    if(productId>0){
+      this.productEdit(productId);
+    }else{
+      this.productRegister();
+    }
+  }
+
+  productRegister():void{
+    this._productService.productRegister(this.form.value).subscribe(
+      (resp)=>{
+        if(resp.isSuccess){
+          this._alert.success("Excelente",resp.message);
+          this._dialogRef.close(true);
+        }else{
+          this._alert.warn("Atención",resp.message);
+        }
+      }
+    )
+  }
+
+  productEdit(productId:number):void{
+
+  }
+
+
 }

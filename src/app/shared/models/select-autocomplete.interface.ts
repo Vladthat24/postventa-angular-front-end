@@ -1,4 +1,4 @@
 export interface SelectAutoComplete{
     id:string;
-    descripcion: string;
+    description: string;
 }

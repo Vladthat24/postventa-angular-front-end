@@ -2,12 +2,13 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BaseResponse } from "@shared/models/base-api-response.interface";
 import { AlertService } from "@shared/services/alert.service";
-import { Observable } from "rxjs";
 import { environment as env } from "src/environments/environment";
 import { endpoint } from "@shared/apis/endpoints";
 import { map } from "rxjs/operators";
 import { getIcon } from "@shared/functions/helpers";
 import { ProductResponse } from "../models/product-response.interface";
+import { ProductRequest } from "../models/product-request.interface";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -51,5 +52,25 @@ export class ProductService {
         return resp;
       })
     );
+  }
+
+  productRegister(product:ProductRequest):Observable<BaseResponse>{
+    const requestUrl= `${env.api}${endpoint.PRODUCT_REGISTER}`;
+    const formDataProduct= this._buildFormDataProduct(product);
+    return this._http.post<BaseResponse>(requestUrl, formDataProduct);
+  }
+
+  private _buildFormDataProduct(product:ProductRequest):FormData{
+    const formData= new FormData();
+    formData.append("code",product.code),
+    formData.append("name",product.name),
+    formData.append("stockMin",product.stockMin.toString()),
+    formData.append("stockMax",product.stockMax.toString()),
+    formData.append("categoryId",product.categoryId.toString()),
+    formData.append("state",product.state.toString()),
+    formData.append("image",product.image),
+    formData.append("unitSalePrice",product.unitSalePrice.toString())
+
+    return formData;
   }
 }

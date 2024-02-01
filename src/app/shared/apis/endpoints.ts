@@ -32,6 +32,7 @@ export const endpoint={
 
     //PRODUCT
     LIST_PRODUCTS:"Product",
+    PRODUCT_REGISTER:"Product/Register/",
 
 }
 

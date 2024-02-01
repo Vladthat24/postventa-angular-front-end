@@ -20,11 +20,18 @@ import icRefresh from "@iconify/icons-ic/twotone-restart-alt";
 import icWarehouse from "@iconify/icons-ic/twotone-widgets";
 import icManage from "@iconify/icons-ic/twotone-article";
 import icProduct from "@iconify/icons-ic/twotone-inventory-2";
+import icUpload from "@iconify/icons-ic/twotone-upload-file";
+
 @Injectable({
   providedIn: "root",
 })
 export class IconsService {
   getIcon(icon: string) {
+
+    if(icon=="icUpdload"){
+      return icUpload;
+    }
+
     if(icon=="icManage"){
       return icManage;
     }

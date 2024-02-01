@@ -37,11 +37,11 @@ export class SelectAutocompleteComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     for (let property in changes) {
       if (property === "listOptions") {
-        if (changes.listOptions.previousValue != undefined) {
+        if (changes.listOptions.previousValue !== undefined) {
           this.optionsFilters = this.filter("", this.listOptions);
         }
 
-        if (changes.listOptions.currentValue != undefined) {
+        if (changes.listOptions.currentValue !== undefined) {
           this.optionsFilters = this.filter("", this.listOptions);
 
           if (changes.listOptions.currentValue.length === 0) {
@@ -68,7 +68,7 @@ export class SelectAutocompleteComponent implements OnInit, OnChanges {
 
     if (listOptions != undefined && listOptions.length > 0) {
       optionsFiltered = listOptions.filter((option) => {
-        return option.descripcion.toLowerCase().includes(filterValue);
+        return option.description.toLowerCase().includes(filterValue);
       });
       this.placeholder = this.label;
     } else {
@@ -95,12 +95,9 @@ export class SelectAutocompleteComponent implements OnInit, OnChanges {
 
   private checkOption(value, listOptions: SelectAutoComplete[]) {
     if (listOptions) {
-      let ids = listOptions.map((option) => {
-        option.id;
-      });
-      let isValue = ids.includes(value);
-
-      if (isValue) {
+      let ids = listOptions.map((option) => option.id);
+      let isValid = ids.includes(value);
+      if (isValid) {
         this.control.reset;
       } else {
         if (this.required) this.control.setErrors({ required: true });
@@ -112,7 +109,7 @@ export class SelectAutocompleteComponent implements OnInit, OnChanges {
     let selecetValue = null;
     if (this.listOptions && id) {
       let option = this.listOptions.find((option) => option.id === id);
-      selecetValue = option != undefined ? option.descripcion : null;
+      selecetValue = option != undefined ? option.description : null;
     }
     return selecetValue;
   }

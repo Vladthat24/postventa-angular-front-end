@@ -12,6 +12,8 @@ import { MenuComponent } from '@shared/components/reusables/menu/menu.component'
 import { ExportExcelComponent } from '@shared/components/reusables/export-excel/export-excel.component';
 import { FilterDataRangeYmdComponent } from '@shared/components/reusables/filter-data-range-ymd/filter-data-range-ymd.component';
 import { ButtonResetFiltersComponent } from '@shared/components/reusables/button-reset-filters/button-reset-filters.component';
+import { SelectAutocompleteComponent } from '@shared/components/reusables/select-autocomplete/select-autocomplete.component';
+import { ImgSelectorComponent } from '@shared/components/reusables/img-selector/img-selector.component';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { ButtonResetFiltersComponent } from '@shared/components/reusables/button
     MenuComponent,
     ExportExcelComponent,
     FilterDataRangeYmdComponent,
-    ButtonResetFiltersComponent
+    ButtonResetFiltersComponent,
+    SelectAutocompleteComponent,
+    ImgSelectorComponent
   ]
 })
 export class ProductModule { }
