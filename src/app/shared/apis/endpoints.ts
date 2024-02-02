@@ -32,7 +32,10 @@ export const endpoint={
 
     //PRODUCT
     LIST_PRODUCTS:"Product",
+    PRODUCT_BY_ID:"Product/",
     PRODUCT_REGISTER:"Product/Register/",
+    PRODUCT_EDIT:"Product/Edit/",
+    PRODUCT_REMOVE:"Product/Remove/",
 
 }
 

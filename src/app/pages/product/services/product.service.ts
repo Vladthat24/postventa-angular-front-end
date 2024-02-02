@@ -6,7 +6,7 @@ import { environment as env } from "src/environments/environment";
 import { endpoint } from "@shared/apis/endpoints";
 import { map } from "rxjs/operators";
 import { getIcon } from "@shared/functions/helpers";
-import { ProductResponse } from "../models/product-response.interface";
+import { ProductByIdResponse, ProductResponse } from "../models/product-response.interface";
 import { ProductRequest } from "../models/product-request.interface";
 import { Observable } from "rxjs";
 
@@ -14,7 +14,7 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class ProductService {
-  constructor(private _http: HttpClient, private _alert: AlertService) {}
+  constructor(private _http: HttpClient, private _alert: AlertService) { }
 
 
   GetAll(
@@ -24,9 +24,8 @@ export class ProductService {
     page: number,
     getInputs: string
   ): Observable<BaseResponse> {
-    const requestUrl = `${env.api}${
-      endpoint.LIST_PRODUCTS
-    }?records=${size}&sort=${sort}&order=${order}&numPage=${page + 1}${getInputs}`;
+    const requestUrl = `${env.api}${endpoint.LIST_PRODUCTS
+      }?records=${size}&sort=${sort}&order=${order}&numPage=${page + 1}${getInputs}`;
 
     return this._http.get<BaseResponse>(requestUrl).pipe(
       map((resp) => {
@@ -41,7 +40,7 @@ export class ProductService {
             default:
               product.badgeColor = "textr-gray  bg-gray-light";
           }
-          product.icView=getIcon("icVisibility","Ver Stock Actual",true);
+          product.icView = getIcon("icVisibility", "Ver Stock Actual", true);
           product.icEdit = getIcon("icEdit", "Editar Producto", true);
           product.icDelete = getIcon(
             "icDelete",
@@ -54,22 +53,46 @@ export class ProductService {
     );
   }
 
-  productRegister(product:ProductRequest):Observable<BaseResponse>{
-    const requestUrl= `${env.api}${endpoint.PRODUCT_REGISTER}`;
-    const formDataProduct= this._buildFormDataProduct(product);
+  productById(productId: number): Observable<ProductByIdResponse> {
+    const requestUrl = `${env.api}${endpoint.PRODUCT_BY_ID}${productId}`;
+    return this._http.get(requestUrl).pipe(
+      map((resp: BaseResponse) => {
+        return resp.data;
+      })
+    )
+  }
+  productRegister(product: ProductRequest): Observable<BaseResponse> {
+    const requestUrl = `${env.api}${endpoint.PRODUCT_REGISTER}`;
+    const formDataProduct = this._buildFormDataProduct(product);
     return this._http.post<BaseResponse>(requestUrl, formDataProduct);
   }
 
-  private _buildFormDataProduct(product:ProductRequest):FormData{
-    const formData= new FormData();
-    formData.append("code",product.code),
-    formData.append("name",product.name),
-    formData.append("stockMin",product.stockMin.toString()),
-    formData.append("stockMax",product.stockMax.toString()),
-    formData.append("categoryId",product.categoryId.toString()),
-    formData.append("state",product.state.toString()),
-    formData.append("image",product.image),
-    formData.append("unitSalePrice",product.unitSalePrice.toString())
+  productEdit(productId: number, product: ProductRequest): Observable<BaseResponse> {
+    const requestUrl = `${env.api}${endpoint.PRODUCT_EDIT}${productId}`;
+    const formDataProduct = this._buildFormDataProduct(product);
+    return this._http.put<BaseResponse>(requestUrl, formDataProduct);
+  }
+
+  productRemove(productId:number):Observable<void>{
+    const requestUrl = `${env.api}${endpoint.PRODUCT_REMOVE}${productId}`;
+    return this._http.put(requestUrl,"").pipe(
+      map((resp:BaseResponse)=>{
+        if(resp.isSuccess){
+          this._alert.success("Excelente",resp.message);
+        }
+      })
+    )
+  }
+  private _buildFormDataProduct(product: ProductRequest): FormData {
+    const formData = new FormData();
+    formData.append("code", product.code),
+      formData.append("name", product.name),
+      formData.append("stockMin", product.stockMin.toString()),
+      formData.append("stockMax", product.stockMax.toString()),
+      formData.append("categoryId", product.categoryId.toString()),
+      formData.append("state", product.state.toString()),
+      formData.append("image", product.image),
+      formData.append("unitSalePrice", product.unitSalePrice.toString())
 
     return formData;
   }

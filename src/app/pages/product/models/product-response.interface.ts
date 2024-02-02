@@ -15,3 +15,17 @@ export interface ProductResponse {
   icEdit: object;
   icDelete: object;
 }
+
+
+export interface ProductByIdResponse{
+  productId: number;
+  code: string;
+  name: string;
+  stockMin: number;
+  stockMax: number;
+  image: string;
+  unitSalePrice: number;
+  categoryId: number;
+  state: number;
+
+}

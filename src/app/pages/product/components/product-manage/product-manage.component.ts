@@ -48,6 +48,27 @@ export class ProductManageComponent implements OnInit {
 
   ngOnInit(): void {
     this.listSelectCategories();
+    if(this.data.mode=="edit"){
+      this.productById(this.data.dialogConfig.data.productId);
+    }
+  }
+
+  productById(productId:number):void{
+    console.log("productId:",productId);
+    this._productService.productById(productId).subscribe((resp)=>{
+      console.log("resp:",resp);
+      this.form.reset({
+        productId:resp.productId,
+        code:resp.code,
+        name:resp.name,
+        stockMin:resp.stockMin,
+        stockMax:resp.stockMax,
+        image:resp.image,
+        unitSalePrice:resp.unitSalePrice,
+        categoryId:resp.categoryId,
+        state:resp.state,
+      });
+    });
   }
 
   listSelectCategories():void{
@@ -89,7 +110,16 @@ export class ProductManageComponent implements OnInit {
   }
 
   productEdit(productId:number):void{
-
+    this._productService.productEdit(productId,this.form.value).subscribe(
+      (resp)=>{
+        if(resp.isSuccess){
+          this._alert.success("Excelente",resp.message);
+          this._dialogRef.close(true);
+        }else{
+          this._alert.warn("Atención",resp.message);
+        }
+      }
+    )
   }
 
 

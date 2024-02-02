@@ -4,12 +4,13 @@ import { fadeInRight400ms } from "src/@vex/animations/fade-in-right.animation";
 import { scaleIn400ms } from "src/@vex/animations/scale-in.animation";
 import { stagger40ms } from "src/@vex/animations/stagger.animation";
 import { ProductService } from "../../services/product.service";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { componentSettings } from "./product-list-config";
 import { DateRange, FiltersBox } from "@shared/models/seach-options-interface";
 import { ProductManageComponent } from "../product-manage/product-manage.component";
 import { ProductResponse } from "../../models/product-response.interface";
 import { RowClick } from "@shared/models/row-click.interface";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "vex-product-list",
@@ -81,7 +82,7 @@ export class ProductListComponent implements OnInit {
       .open(ProductManageComponent, {
         disableClose: true,
         width: "400px",
-        data:{mode:"register"}
+        data: { mode: "register" },
       })
       .afterClosed()
       .subscribe((res) => {
@@ -107,19 +108,46 @@ export class ProductListComponent implements OnInit {
     }
     return false;
   }
-  
-  productEdit(productData:ProductResponse){
 
+  productEdit(productData: ProductResponse) {
+    
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = productData;
+
+    this._dialog.open(ProductManageComponent, {
+        data: { dialogConfig, mode: "edit" },
+        disableClose: true,
+        width: "400px",
+      })
+      .afterClosed()
+      .subscribe((resp) => {
+        if (resp) {
+          this.setGetInputsProduct(true);
+        }
+      });
   }
 
-  productRemove(productData: ProductResponse){
-
+  productRemove(productData: ProductResponse) { 
+    Swal.fire({
+      title: `¿Realmente deseas eliminar el proveedor ${productData.name}`,
+      text: "Se borrará de forma permanente",
+      icon: "warning",
+      showCancelButton: true,
+      focusCancel: true,
+      confirmButtonColor: 'rgb(210,155,253)',
+      cancelButtonColor: 'rgb(79,109,253)',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      width: "430"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._productService.productRemove(productData.productId)
+          .subscribe(() => this.setGetInputsProduct(true));
+      }
+    })
   }
 
-  productInfoWarehouse(productData: ProductResponse){
-
-  }
-
+  productInfoWarehouse(productData: ProductResponse) { }
 
   setGetInputsProduct(refresh: boolean) {
     this.component.filters.refresh = refresh;

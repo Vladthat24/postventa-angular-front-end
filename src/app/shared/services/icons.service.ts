@@ -28,7 +28,7 @@ import icUpload from "@iconify/icons-ic/twotone-upload-file";
 export class IconsService {
   getIcon(icon: string) {
 
-    if(icon=="icUpdload"){
+    if(icon=="icUpload"){
       return icUpload;
     }
 
