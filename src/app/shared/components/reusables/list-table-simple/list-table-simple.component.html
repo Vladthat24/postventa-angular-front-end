@@ -1,1 +1,17 @@
-<p>list-table-simple works!</p>
+<div class="h-full flex flex-col relative gap-4">
+	<div class="flex justify-end">
+		<div class="flex items-center bg-white border border-am-main-blue-light rounded-xl overflow-hidden w-72">
+			<button class="bg-white rounded-sm text-am-purple-dark p-2">
+				<ic-icon [icIcon]="icSearch"
+					class="flex-none"
+					size="24px"></ic-icon>
+			</button>
+			<input #input
+				(keyup)="applyFilter($event)"
+				matInput
+				placeholder="Buscar..."
+				class="border-0 h-11 outline-none rtl:pr-4 placeholder:text-secondary bg-card flex-auto"
+				maxlength="20">
+		</div>
+	</div>
+</div>
