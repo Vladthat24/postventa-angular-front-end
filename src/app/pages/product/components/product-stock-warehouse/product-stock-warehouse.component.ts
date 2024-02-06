@@ -3,6 +3,7 @@ import { ProductStockWarehouseResponse } from "../../models/product-stock-wareho
 import { IconsService } from "@shared/services/icons.service";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ProductService } from "../../services/product.service";
+import { componentInit } from "./product-stock-warehouse-config";
 
 @Component({
   selector: "vex-product-warehouse",
@@ -10,6 +11,8 @@ import { ProductService } from "../../services/product.service";
   styleUrls: ["./product-stock-warehouse.component.scss"],
 })
 export class ProductStockWarehouseComponent implements OnInit {
+  component;
+
   productStockByWarehouses: ProductStockWarehouseResponse[];
   codeProduct: string;
   nameProduct: string;
@@ -24,6 +27,7 @@ export class ProductStockWarehouseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.component={... componentInit}
     this.productStockByWarehouse(this.data.dialogConfig.data.productId);
   }
 
