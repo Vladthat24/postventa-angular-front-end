@@ -36,6 +36,7 @@ export const endpoint={
     PRODUCT_REGISTER:"Product/Register/",
     PRODUCT_EDIT:"Product/Edit/",
     PRODUCT_REMOVE:"Product/Remove/",
+    PRODUCT_STOCK_WAREHOUSE:"Product/ProductStockByWarehouse/"
 
 }
 

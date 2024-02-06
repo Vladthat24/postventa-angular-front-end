@@ -9,6 +9,7 @@ import { getIcon } from "@shared/functions/helpers";
 import { ProductByIdResponse, ProductResponse } from "../models/product-response.interface";
 import { ProductRequest } from "../models/product-request.interface";
 import { Observable } from "rxjs";
+import { ProductStockWarehouseResponse } from "../models/product-stock-warehouse-response.interface";
 
 @Injectable({
   providedIn: "root",
@@ -83,6 +84,17 @@ export class ProductService {
       })
     )
   }
+
+  productStockByWarehouse(productId:number):Observable<ProductStockWarehouseResponse[]>{
+    const requestUrl=`${env.api}${endpoint.PRODUCT_STOCK_WAREHOUSE}${productId}`;
+    return this._http.get(requestUrl).pipe(
+      map((resp:BaseResponse)=>{
+        return resp.data;
+      })
+    )
+  }
+
+
   private _buildFormDataProduct(product: ProductRequest): FormData {
     const formData = new FormData();
     formData.append("code", product.code),

@@ -11,6 +11,7 @@ import { ProductManageComponent } from "../product-manage/product-manage.compone
 import { ProductResponse } from "../../models/product-response.interface";
 import { RowClick } from "@shared/models/row-click.interface";
 import Swal from "sweetalert2";
+import { ProductStockWarehouseComponent } from "../product-stock-warehouse/product-stock-warehouse.component";
 
 @Component({
   selector: "vex-product-list",
@@ -147,7 +148,13 @@ export class ProductListComponent implements OnInit {
     })
   }
 
-  productInfoWarehouse(productData: ProductResponse) { }
+  productInfoWarehouse(productData: ProductResponse) {
+    const dialogConfig= new MatDialogConfig();
+    dialogConfig.data=productData;
+    this._dialog.open(ProductStockWarehouseComponent,{
+      data:{dialogConfig}
+    })
+   }
 
   setGetInputsProduct(refresh: boolean) {
     this.component.filters.refresh = refresh;

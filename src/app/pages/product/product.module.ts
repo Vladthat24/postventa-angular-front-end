@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ProductRoutingModule } from './product-routing.module';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductManageComponent } from './components/product-manage/product-manage.component';
-import { ProductWarehouseComponent } from './components/product-warehouse/product-warehouse.component';
+import { ProductStockWarehouseComponent } from './components/product-stock-warehouse/product-stock-warehouse.component';
 import { SharedModule } from '@shared/shared.module';
 import { ListTableComponent } from '@shared/components/reusables/list-table/list-table.component';
 import { SearchBoxMultipleComponent } from '@shared/components/reusables/search-box-multiple/search-box-multiple.component';
@@ -20,7 +20,7 @@ import { ImgSelectorComponent } from '@shared/components/reusables/img-selector/
   declarations: [
     ProductListComponent,
     ProductManageComponent,
-    ProductWarehouseComponent
+    ProductStockWarehouseComponent
   ],
   imports: [
     CommonModule,
