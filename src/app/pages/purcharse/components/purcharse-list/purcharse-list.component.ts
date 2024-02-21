@@ -7,6 +7,7 @@ import { CustomTitleService } from "@shared/services/custom-title.service";
 import { MatDialog } from "@angular/material/dialog";
 import { componentSettings } from "./purcharse-list-config";
 import { DateRange, FiltersBox } from "@shared/models/seach-options-interface";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "vex-purcharse-list",
@@ -19,7 +20,8 @@ export class PurcharseListComponent implements OnInit {
   constructor(
     customTitle: CustomTitleService,
     public _purcharseService: PurcharseService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _router:Router
   ) {
     customTitle.set("Compras");
   }
@@ -73,5 +75,9 @@ export class PurcharseListComponent implements OnInit {
 
   get getDownloadUrl() {
     return `Purcharse?Download=true`;
+  }
+
+  newPurcharse(){
+    this._router.navigate(["/proceso-compras/crear"]);
   }
 }
