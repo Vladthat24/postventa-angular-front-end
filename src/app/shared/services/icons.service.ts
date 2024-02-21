@@ -21,21 +21,29 @@ import icWarehouse from "@iconify/icons-ic/twotone-widgets";
 import icManage from "@iconify/icons-ic/twotone-article";
 import icProduct from "@iconify/icons-ic/twotone-inventory-2";
 import icUpload from "@iconify/icons-ic/twotone-upload-file";
+import icSales from "@iconify/icons-ic/twotone-point-of-sale";
+import icCancel from "@iconify/icons-ic/twotone-block";
 
 @Injectable({
   providedIn: "root",
 })
 export class IconsService {
   getIcon(icon: string) {
+    if (icon == "icCancel") {
+      return icCancel;
+    }
+    if (icon == "icSales") {
+      return icSales;
+    }
 
-    if(icon=="icUpload"){
+    if (icon == "icUpload") {
       return icUpload;
     }
 
-    if(icon=="icManage"){
+    if (icon == "icManage") {
       return icManage;
     }
-    if(icon=="icProduct"){
+    if (icon == "icProduct") {
       return icProduct;
     }
     if (icon == "icEdit") {
@@ -83,16 +91,16 @@ export class IconsService {
     if (icon == "isCategory") {
       return isCategory;
     }
-    if(icon=="icCloudDownload"){
+    if (icon == "icCloudDownload") {
       return icCloudDownload;
     }
-    if(icon=="icToday"){
+    if (icon == "icToday") {
       return icToday;
     }
-    if(icon=="icRefresh"){
+    if (icon == "icRefresh") {
       return icRefresh;
     }
-    if(icon=="icWarehouse"){
+    if (icon == "icWarehouse") {
       return icWarehouse;
     }
   }

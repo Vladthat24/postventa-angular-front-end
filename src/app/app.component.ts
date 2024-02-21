@@ -97,7 +97,24 @@ export class AppComponent {
         label:'Proveedores',
         route:'proveedores',
         icon: IconsService.prototype.getIcon('icProvider'),
-      }
+      },
+      {
+        type:"dropdown",
+        label:"Procesos",
+        icon:IconsService.prototype.getIcon("icSales"),
+        children:[
+          {
+            type:'link',
+            label:'Proceso de Compras',
+            route:'proceso-compras'
+          },
+          {
+            type:'link',
+            label:'Proceso de Ventas',
+            route:'proceso-ventas'
+          },
+        ]
+      },
     ];
   }
 }
