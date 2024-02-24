@@ -15,6 +15,7 @@ export const endpoint={
 
     //Proveedores
     LIST_PROVIDERS:"Provider",
+    LIST_SELECT_PROVIDERS:"Provider/Select",
     PROVIDER_REGISTER:"Provider/Register/",
     PROVIDER_EDIT:"Provider/Edit/",
     PROVIDER_BY_ID:"Provider/",
@@ -25,6 +26,7 @@ export const endpoint={
 
     //Almacenes
     LIST_WAREHOUSE:"Warehouse",
+    LIST_SELECT_WAREHOUSE:"Warehouse/Select",
     WAREHOUSE_BY_ID:"Warehouse/",
     WAREHOUSE_REGISTER:"Warehouse/Register",
     WAREHOUSE_EDIT:"Warehouse/Edit/",
