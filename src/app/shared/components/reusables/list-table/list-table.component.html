@@ -54,11 +54,7 @@
           >
             {{ column.label }}
           </th>
-          <td
-            *matCellDef="let row"
-            [ngClass]="column.cssProperty"
-            mat-cell
-          >
+          <td *matCellDef="let row" [ngClass]="column.cssProperty" mat-cell>
             {{ row[column.property] | currency : "" : "" }}
           </td>
         </ng-container>
@@ -77,11 +73,7 @@
           >
             {{ column.label }}
           </th>
-          <td
-            *matCellDef="let row"
-            [ngClass]="column.cssProperty"
-            mat-cell
-          >
+          <td *matCellDef="let row" [ngClass]="column.cssProperty" mat-cell>
             {{ row[column.property] }}
           </td>
         </ng-container>
@@ -223,6 +215,106 @@
                 matTooltipPosition="above"
               >
               </mat-icon>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container
+          *ngIf="column.type === 'quantityPurcharse'"
+          [matColumnDef]="column.property"
+          [sticky]="column.sticky"
+        >
+          <th
+            *matHeaderCellDef
+            [mat-sort-header]="column.sortProperty"
+            [disabled]="!column.sort"
+            [ngClass]="column.cssLabel"
+            mat-header-cell
+          >
+            {{ column.label }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <div class="flex gap-2 items-center">
+              <button
+                (click)="substractQuantityPurcharse(row)"
+                type="button"
+                mat-icon-button
+                color="primary"
+                class="small-button"
+              >
+                <mat-icon
+                  [icIcon]="icMin"
+                  class="flex justify-center items-center p-1.5 rounded-full text-am-main-blue-dark bg-am-main-blue-light border-am-main-blue-dark"
+                ></mat-icon>
+              </button>
+              <label [ngClass]="column.cssProperty" class="text-md">
+                {{ row[column.property] }}
+              </label>
+              <button
+                (click)="increaseQuantityPurcharse(row)"
+                type="button"
+                mat-icon-button
+                color="primary"
+                class="small-button"
+              >
+                <mat-icon
+                  [icIcon]="icAdd"
+                  class="flex justify-center items-center p-1.5 rounded-full text-am-main-blue-dark bg-am-main-blue-light border-am-main-blue-dark"
+                ></mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container
+          *ngIf="column.type === 'unitPurcharsePrice'"
+          [matColumnDef]="column.property"
+          [sticky]="column.sticky"
+        >
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            [mat-sort-header]="column.sortProperty"
+            [disabled]="!column.sort"
+            [ngClass]="column.cssLabel"
+          >
+            {{ column.label }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <div class="flex items-center">
+              <mat-form-field appearance="outline" class="w-20 mt-4 text-sm">
+                <input
+                  matInput
+                  [(ngModel)]="row[column.property]"
+                  min="0"
+                  type="number"
+                  placeholder="0.00"
+                  class="mat-input-element"
+                  [ngClass]="column.cssProperty"
+                  (ngModelChange)="calculateTotalAmountPurcharse(row)"
+                />
+              </mat-form-field>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container
+          *ngIf="column.type === 'totalAmount'"
+          [matColumnDef]="column.property"
+          [sticky]="column.sticky"
+        >
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            [mat-sort-header]="column.sortProperty"
+            [disabled]="!column.sort"
+            [ngClass]="column.cssLabel"
+          >
+            {{ column.label }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <div class="text-md" [ngClass]="column.cssProperty">
+              {{ row[column.property] }}
             </div>
           </td>
         </ng-container>

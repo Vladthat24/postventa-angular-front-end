@@ -1,6 +1,6 @@
 import { SearchOptions } from "@shared/models/seach-options-interface";
 import { GenericValidators } from "@shared/validators/generic-validators";
-import { PurcharResponse } from "../../models/purcharse-response.interface";
+import { ProductDetailsResponse, PurcharResponse } from "../../models/purcharse-response.interface";
 import { TableColumns } from "@shared/models/list-table-interface";
 import { IconsService } from "@shared/services/icons.service";
 
@@ -14,6 +14,25 @@ const searchOptions: SearchOptions[] = [
     icon: "icName",
   },
 ];
+
+const searchOptionsProducts:SearchOptions[]=[
+  {
+    label: "Código",
+    value: 1,
+    placeholder: "Buscar por Código",
+    validation: [GenericValidators.alphanumeric],
+    validation_desc: "Sólo se permite correos válidos",
+    icon: "icName",
+  },
+  {
+    label: "Nombre",
+    value: 2,
+    placeholder: "Buscar por Nombre",
+    validation: [GenericValidators.defaultName],
+    validation_desc: "Sólo se permite letras en esta búsqueda",
+    icon: "icName",
+  }
+]
 
 const tableColumns: TableColumns<PurcharResponse>[] = [
   {
@@ -90,6 +109,94 @@ const tableColumns: TableColumns<PurcharResponse>[] = [
   },
 ];
 
+const tableColumnsProducts: TableColumns<ProductDetailsResponse>[]=[
+  {
+    label: "",
+    cssLabel: ["font-bold", "text-xxs"],
+    property: "image",
+    cssProperty: ["font-semibold", "text-xs", "text-left"],
+    type: "image",
+    sticky: true,
+    sort: true,
+    sortProperty: "image",
+    visible: true,
+    download: true,
+  },
+  {
+    label: "Código",
+    cssLabel: ["font-bold", "text-xxs"],
+    property: "code",
+    cssProperty: ["font-semibold", "text-xs", "text-left"],
+    type: "textUppercase",
+    sticky: false,
+    sort: true,
+    sortProperty: "code",
+    visible: true,
+    download: true,
+  },
+  {
+    label: "Nombre",
+    cssLabel: ["font-bold", "text-xxs"],
+    property: "name",
+    cssProperty: ["font-semibold", "text-xs", "text-left"],
+    subProperty:"category",
+    cssSubProperty: ["text-xxs", "text-am-gray","uppercase", "text-left"],
+    type: "text",
+    sticky: false,
+    sort: true,
+    sortProperty: "name",
+    visible: true,
+    download: true,
+  },
+  {
+    label: "Cantidad",
+    cssLabel: ["font-bold", "text-xxs"],
+    property: "quantity",
+    cssProperty: ["font-semibold", "text-xs", "text-left"],
+    type: "quantityPurcharse",
+    sticky: false,
+    sort: true,
+    sortProperty: "quantity",
+    visible: true,
+    download: true,
+  },
+  {
+    label: "Precio U.",
+    cssLabel: ["font-bold", "text-xxs"],
+    property: "unitPurcharsePrice",
+    cssProperty: ["font-semibold", "text-xs", "text-left"],
+    type: "unitPurcharsePrice",
+    sticky: false,
+    sort: true,
+    sortProperty: "unitPurcharsePrice",
+    visible: true,
+    download: true,
+  },
+  {
+    label: "Total",
+    cssLabel: ["font-bold", "text-xxs"],
+    property: "totalAmount",
+    cssProperty: ["font-semibold", "text-xs", "text-left"],
+    type: "totalAmount",
+    sticky: false,
+    sort: true,
+    sortProperty: "totalAmount",
+    visible: true,
+    download: true,
+  },
+  {
+    label: "",
+    cssLabel: [],
+    property: "icAdd",
+    cssProperty: [],
+    type: "icon",
+    action: "addDetail",
+    sticky: false,
+    sort: false,
+    visible: true,
+    download: false,
+  },
+];
 
 const filters = {
     numFilter: 0,
@@ -113,11 +220,13 @@ export const componentSettings = {
   icPurcharse: IconsService.prototype.getIcon("icSales"),
   //TABLE SETTINGS
   tableColumns,
+  tableColumnsProducts,
   initialSort: "Id",
   initalSortDir: "desc",
   getInputs,
   //SEARCH FILTROS
   searchOptions,
+  searchOptionsProducts,
   filters: filters,
   resetFilters,
   filename: "listado-de-compras",
