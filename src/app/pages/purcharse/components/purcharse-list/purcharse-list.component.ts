@@ -8,6 +8,9 @@ import { MatDialog } from "@angular/material/dialog";
 import { componentSettings } from "./purcharse-list-config";
 import { DateRange, FiltersBox } from "@shared/models/seach-options-interface";
 import { Router } from "@angular/router";
+import { RowClick } from "@shared/models/row-click.interface";
+import { PurcharResponse } from "../../models/purcharse-response.interface";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "vex-purcharse-list",
@@ -21,7 +24,7 @@ export class PurcharseListComponent implements OnInit {
     customTitle: CustomTitleService,
     public _purcharseService: PurcharseService,
     private _dialog: MatDialog,
-    private _router:Router
+    private _router: Router
   ) {
     customTitle.set("Compras");
   }
@@ -67,6 +70,45 @@ export class PurcharseListComponent implements OnInit {
     }
     this.component.getInputs = str;
   }
+  rowClick(rowClick: RowClick<PurcharResponse>) {
+    let action = rowClick.action;
+    let purcharse = rowClick.row;
+
+    switch (action) {
+      case "viewDetail":
+        this.purcharseViewDetail(purcharse);
+        break;
+      case "cancel":
+        this.purcharseCancel(purcharse);
+        break;
+    }
+    return false;
+  }
+
+  purcharseViewDetail(purcharse: PurcharResponse) {
+    this._router.navigate(["/proceso-compras/crear", purcharse.purcharseId]);
+  }
+
+  purcharseCancel(purcharse: PurcharResponse) {
+    Swal.fire({
+      title: `Se anulará de forma permanente`,
+      text: "Realmente deseas anular la Compra",
+      icon: "warning",
+      showCancelButton: true,
+      focusCancel: true,
+      confirmButtonColor: 'rgb(210,155,253)',
+      cancelButtonColor: 'rgb(79,109,253)',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      width: "430"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._purcharseService
+          .purcharseCancel(purcharse.purcharseId)
+          .subscribe(() => this.setGetInputsPurcharse(true));
+      }
+    })
+  }
 
   setGetInputsPurcharse(refresh: boolean) {
     this.component.filters.refresh = refresh;
@@ -77,7 +119,7 @@ export class PurcharseListComponent implements OnInit {
     return `Purcharse?Download=true`;
   }
 
-  newPurcharse(){
+  newPurcharse() {
     this._router.navigate(["/proceso-compras/crear"]);
   }
 }

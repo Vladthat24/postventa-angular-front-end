@@ -41,8 +41,17 @@ export const endpoint={
     PRODUCT_STOCK_WAREHOUSE:"Product/ProductStockByWarehouse/",
 
     //PURCHARSE
-    LIST_PURCHARSE:"Purcharse"
+    LIST_PURCHARSE:"Purcharse",
+    PURCHARSE_REGISTER:"Purcharse/Register/",
+    PURCHARSE_BY_ID:"Purcharse/",
+    PURCHARSE_CANCEL:"Purcharse/Cancel/",
 
+    //CLIENTS
+    LIST_CLIENTS:"Client",
+    CLIENT_REGISTER:"Client/Register",
+    CLIENT_BY_ID: "Client/",
+    CLIENT_EDIT:"Client/Edit/",
+    CLIENT_REMOVE: "Client/Remove/"
 }
 
 export const httpOptions={

@@ -11,8 +11,13 @@ import { componentSettings } from "../purcharse-list/purcharse-list-config";
 import { FiltersBox } from "@shared/models/seach-options-interface";
 import { PurcharseDetailService } from "../../services/purcharse-detail.service";
 import { RowClick } from "@shared/models/row-click.interface";
-import { ProductDetailsResponse } from "../../models/purcharse-response.interface";
-import { Router } from "@angular/router";
+import { ProductDetailsResponse, PurcharseByIdResponse } from "../../models/purcharse-response.interface";
+import { ActivatedRoute, Router } from "@angular/router";
+import { PurcharseRequest } from "../../models/purcharse-request.interface";
+import { PurcharseService } from "../../services/purcharse.service";
+import { AlertService } from "@shared/services/alert.service";
+import { Observable } from "rxjs";
+import { endpoint } from "@shared/apis/endpoints";
 
 @Component({
   selector: "vex-purcharse-create",
@@ -36,6 +41,9 @@ export class PurcharseCreateComponent implements OnInit {
   igv: number = 0;
   total: number = 0;
 
+  purcharseId: number=0;
+  viewDetailRead:boolean=false;
+
   initForm(): void {
     this.form = this._fb.group({
       providerId: ["", Validators.required],
@@ -49,15 +57,44 @@ export class PurcharseCreateComponent implements OnInit {
     private _providerSelectService: ProviderSelectService,
     private _warehouseSelectService: WarehouseSelectService,
     public _purcharseDetailService: PurcharseDetailService,
-    private _route:Router,
+    private _route: Router,
+    private _purcharseService: PurcharseService,
+    private _alert: AlertService,
+    private _activatedRoute:ActivatedRoute
   ) {
     this.initForm();
+    this._activatedRoute.params.subscribe((params)=>{
+      this.purcharseId=params["purcharseId"];//Capturar id de la compra para mostrear informacion para visualizar
+    })
   }
 
   ngOnInit(): void {
     this.listSelectProviders();
     this.listSelectWarehouse();
     this.componentPurcharseDetail = componentSettings;
+
+    if(this.purcharseId>0){
+      this.purcharseById(this.purcharseId);
+      this.viewDetailRead=true;
+    }
+  }
+
+  //DEtalle de la compra
+  purcharseById(purcharseId:number){
+    this._purcharseService.purcharseById(purcharseId).subscribe((resp)=>{
+      console.log("REspuista de Id: ",resp);
+
+      this.form.reset({
+        providerId:resp.providerId,
+        warehouseId:resp.warehouseId,
+        observation:resp.observation,
+      })
+
+      this.cartDetails=resp.purcharseDetails;
+      this.subTotal=resp.subTotal;
+      this.igv=resp.igv;
+      this.total=resp.totalAmount;
+    })
   }
 
   listSelectProviders(): void {
@@ -101,10 +138,10 @@ export class PurcharseCreateComponent implements OnInit {
     return false;
   }
 
-  back(){
+  back() {
     this._route.navigate(["proceso-compras"]);
   }
-  
+
   addDetail(products: ProductDetailsResponse) {
     if (products.totalAmount <= 0) {
       return;
@@ -154,4 +191,40 @@ export class PurcharseCreateComponent implements OnInit {
     this.calculateIgv();
     this.calculateTotal();
   }
+
+  purcharseSave() {
+    if (this.form.invalid) {
+      return Object.values(this.form.controls).forEach((controls) => {
+        controls.markAllAsTouched();
+      })
+    }
+
+    const purcharse: PurcharseRequest = {
+      observation: this.form.value.observation,
+      warehouseId: this.form.value.warehouseId,
+      providerId: this.form.value.providerId,
+      subtotal: this.subTotal,
+      igv: this.igv,
+      totalAmount: this.total,
+      purcharseDetails: this.cartDetails.map(
+        (product: ProductDetailsResponse) => ({
+          productId: product.productId,
+          quantity: product.quantity,
+          unitPurcharsePrice: product.unitPurcharsePrice,
+          total: product.totalAmount
+        }))
+    }
+
+    this._purcharseService.purcharseRegister(purcharse)
+      .subscribe((resp) => {
+        if (resp.isSuccess) {
+          this._alert.success("Excelente", resp.message);
+          this._route.navigate(["proceso-compras"]);
+        } else {
+          this._alert.success("Atención", resp.message);
+        }
+      });
+
+  }
+
 }

@@ -94,6 +94,12 @@ export class AppComponent {
       },
       {
         type:'link',
+        label:'Clientes',
+        route:'clientes',
+        icon: IconsService.prototype.getIcon('icClient'),
+      },
+      {
+        type:'link',
         label:'Proveedores',
         route:'proveedores',
         icon: IconsService.prototype.getIcon('icProvider'),

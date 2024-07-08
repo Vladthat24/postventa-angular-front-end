@@ -28,6 +28,7 @@
             [control]="form.get('providerId')"
             [required]="true"
             [listOptions]="providerSelect"
+            [readonly]="viewDetailRead"
           >
           </app-select-autocomplete>
 
@@ -36,6 +37,7 @@
             [control]="form.get('warehouseId')"
             [required]="true"
             [listOptions]="warehouseSelec"
+            [readonly]="viewDetailRead"
           >
           </app-select-autocomplete>
         </div>
@@ -47,7 +49,7 @@
             formControlName="observation"
           ></textarea>
         </mat-form-field>
-        <div class="flex justify-between">
+        <div class="flex justify-between" *ngIf="!viewDetailRead">
           <div
             @fadeInRight
             class="text-lg font-medium text-am-main-blue-dark ml-2"
@@ -62,7 +64,7 @@
           </app-search-box-multiple>
         </div>
         <br />
-        <div class="card h-full overflow-hidden flex-auto">
+        <div class="card h-full overflow-hidden flex-auto" *ngIf="!viewDetailRead">
           <app-list-table
             class="w-full border rounded-lg"
             (rowClick)="rowClick($event)"
@@ -146,7 +148,7 @@
                 <td class="px-6 py-4 font-semibold text-xs text-left">
                   {{ product.totalAmount | currency : "" : "" }}
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4" *ngIf="!viewDetailRead">
                   <div
                     class="flex justify-center items-center cursor-pointer p-1.5 w-fit rounded-full text-am-new-red-dark bg-am-new-red-light border-am-new-red-dark mb-1"
                   >
@@ -192,7 +194,8 @@
               class="bg-accent text-accent-contrast"
               mat-button
               [disabled]="form.invalid || cartDetails.length == 0"
-
+              (click)="purcharseSave()"
+              *ngIf="!viewDetailRead"
             >Guardar</button>
           </div>
         </div>

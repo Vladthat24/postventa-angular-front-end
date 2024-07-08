@@ -28,30 +28,26 @@ export class ProductService {
     const requestUrl = `${env.api}${endpoint.LIST_PRODUCTS
       }?records=${size}&sort=${sort}&order=${order}&numPage=${page + 1}${getInputs}`;
 
-    return this._http.get<BaseResponse>(requestUrl).pipe(
-      map((resp) => {
-        resp.data.forEach(function (product: ProductResponse) {
-          switch (product.state) {
-            case 0:
-              product.badgeColor = "text-gray bg-gray-light";
-              break;
-            case 1:
-              product.badgeColor = "text-green bg-green-light";
-              break;
-            default:
-              product.badgeColor = "textr-gray  bg-gray-light";
-          }
-          product.icView = getIcon("icVisibility", "Ver Stock Actual", true);
-          product.icEdit = getIcon("icEdit", "Editar Producto", true);
-          product.icDelete = getIcon(
-            "icDelete",
-            "Eliminar Producto",
-            true
-          );
-        });
-        return resp;
-      })
-    );
+    return this._http
+      .get<BaseResponse>(requestUrl)
+      .pipe(map((resp) => this.transformProductData(resp)));
+  }
+
+  private transformProductData(response: BaseResponse): BaseResponse {
+
+    const badgeColor: Record<number, string> = {
+      0: "text-gray bg-gray-light",
+      1: "text-green bg-green-light"
+    }
+
+    response.data.forEach((product: ProductResponse) => {
+      product.badgeColor = badgeColor[product.state] || "text-gray bg-gray-light";
+      product.icView = getIcon("icVisibility", "Ver stock actual", true);
+      product.icEdit = getIcon("icEdit", "Editar Producto", true);
+      product.icDelete = getIcon("icDelete", "Eliminar Producto", true);
+    });
+
+    return response;
   }
 
   productById(productId: number): Observable<ProductByIdResponse> {
@@ -74,21 +70,21 @@ export class ProductService {
     return this._http.put<BaseResponse>(requestUrl, formDataProduct);
   }
 
-  productRemove(productId:number):Observable<void>{
+  productRemove(productId: number): Observable<void> {
     const requestUrl = `${env.api}${endpoint.PRODUCT_REMOVE}${productId}`;
-    return this._http.put(requestUrl,"").pipe(
-      map((resp:BaseResponse)=>{
-        if(resp.isSuccess){
-          this._alert.success("Excelente",resp.message);
+    return this._http.put(requestUrl, "").pipe(
+      map((resp: BaseResponse) => {
+        if (resp.isSuccess) {
+          this._alert.success("Excelente", resp.message);
         }
       })
     )
   }
 
-  productStockByWarehouse(productId:number):Observable<ProductStockWarehouseResponse[]>{
-    const requestUrl=`${env.api}${endpoint.PRODUCT_STOCK_WAREHOUSE}${productId}`;
+  productStockByWarehouse(productId: number): Observable<ProductStockWarehouseResponse[]> {
+    const requestUrl = `${env.api}${endpoint.PRODUCT_STOCK_WAREHOUSE}${productId}`;
     return this._http.get(requestUrl).pipe(
-      map((resp:BaseResponse)=>{
+      map((resp: BaseResponse) => {
         return resp.data;
       })
     )
